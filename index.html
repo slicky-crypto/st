@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kim V. Vasquez — Certificate Ledger</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    color: white;
+    background: #182436;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   BLURRED IOS BACKGROUND
+========================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    inset: -100px;
+
+    z-index: -2;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            #d8b487 0%,
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 75% 20%,
+            #8fb5e8 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            #6c8db8 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 75%,
+            #c99fa1 0%,
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #7c8b9d,
+            #27374d
+        );
+
+    filter: blur(55px);
+    transform: scale(1.15);
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container {
+    width: min(1100px, 92%);
+    margin: auto;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 28px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.logo-line {
+    width: 35px;
+    height: 1px;
+    background: white;
+    opacity: .8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 18px;
+
+    font-size: 11px;
+    letter-spacing: 3px;
+
+    color: rgba(255,255,255,.75);
+}
+
+.nav-links a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: white;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    padding: 80px 0 100px;
+}
+
+.eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+
+    color: rgba(255,255,255,.7);
+
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(60px, 10vw, 110px);
+    font-weight: 300;
+
+    line-height: .9;
+    letter-spacing: -5px;
+
+    margin-bottom: 35px;
+}
+
+.hero-text {
+    max-width: 500px;
+
+    color: rgba(255,255,255,.75);
+
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: flex;
+    gap: 16px;
+
+    margin-top: 45px;
+}
+
+.stat {
+    width: 175px;
+
+    padding: 22px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,.13);
+
+    border: 1px solid rgba(255,255,255,.25);
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.12);
+}
+
+.stat-number {
+    display: block;
+
+    font-size: 30px;
+    font-weight: 500;
+
+    margin-bottom: 7px;
+}
+
+.stat-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+
+    color: rgba(255,255,255,.7);
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   CERTIFICATES
+========================= */
+
+.section {
+    padding: 40px 0 100px;
+}
+
+.section-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+
+    color: rgba(255,255,255,.65);
+
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 48px;
+    font-weight: 300;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 40px;
+}
+
+
+/* =========================
+   CERTIFICATE CARD
+========================= */
+
+.card {
+    display: grid;
+
+    grid-template-columns: 110px 110px 1fr auto;
+
+    align-items: center;
+
+    gap: 30px;
+
+    margin-bottom: 20px;
+
+    padding: 30px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.20),
+            rgba(255,255,255,.08)
+        );
+
+    border: 1px solid rgba(255,255,255,.28);
+
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.12);
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    background:
+        rgba(255,255,255,.23);
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.date {
+    text-align: center;
+
+    padding-right: 25px;
+
+    border-right:
+        1px solid
+        rgba(255,255,255,.2);
+}
+
+.date-number {
+    display: block;
+
+    font-size: 34px;
+    font-weight: 500;
+}
+
+.date-month {
+    font-size: 10px;
+    letter-spacing: 3px;
+
+    color: rgba(255,255,255,.7);
+}
+
+
+/* =========================
+   CARD CONTENT
+========================= */
+
+.issuer {
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    color: rgba(255,255,255,.65);
+
+    margin-bottom: 8px;
+}
+
+.card-title {
+    font-size: 25px;
+    font-weight: 400;
+
+    margin-bottom: 9px;
+}
+
+.description {
+    max-width: 600px;
+
+    color: rgba(255,255,255,.7);
+
+    font-size: 13px;
+    line-height: 1.6;
+
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   TAGS
+========================= */
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.tag {
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    font-size: 10px;
+
+    color: rgba(255,255,255,.75);
+}
+
+
+
+/* =========================
+   CERTIFICATE PREVIEW
+========================= */
+
+.certificate-image {
+    width: 110px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.3);
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.button {
+    white-space: nowrap;
+
+    padding: 12px 18px;
+
+    border-radius: 25px;
+
+    background:
+        rgba(255,255,255,.14);
+
+    border:
+        1px solid
+        rgba(255,255,255,.3);
+
+    color: white;
+
+    font-size: 11px;
+
+    text-decoration: none;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    transition: all .25s ease;
+}
+
+.button:hover {
+    background: rgba(255,255,255,.28);
+
+    transform: scale(1.03);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 40px 0;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.15);
+
+    text-align: center;
+
+    color: rgba(255,255,255,.55);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .container {
+        width: 88%;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        padding: 60px 0 70px;
+    }
+
+    h1 {
+        font-size: 60px;
+        letter-spacing: -3px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 8px;
+    }
+
+    .stat {
+        width: auto;
+        padding: 16px 12px;
+
+        border-radius: 18px;
+    }
+
+    .stat-number {
+        font-size: 23px;
+    }
+
+    .stat-label {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    .section-title {
+        font-size: 38px;
+    }
+
+    .card {
+        grid-template-columns: 65px 90px 1fr;
+
+        gap: 20px;
+
+        padding: 22px;
+
+        border-radius: 20px;
+    }
+
+    .date {
+        padding-right: 15px;
+    }
+
+    .date-number {
+        font-size: 25px;
+    }
+
+    .card-title {
+        font-size: 20px;
+    }
+
+    .description {
+        font-size: 12px;
+    }
+
+    .button {
+        grid-column: 3;
+
+        width: fit-content;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav>
+
+    <div class="logo">
+
+        <span class="logo-line"></span>
+
+        CERTIFICATE LEDGER
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="#certificates">
+            CERTIFICATES
+        </a>
+
+        <span>/</span>
+
+        <a href="#footer">
+            CONTACT
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="eyebrow">
+        CERTIFICATIONS & CREDENTIALS
+    </div>
+
+
+    <h1>
+        Kim V.<br>
+        Vasquez
+    </h1>
+
+
+    <p class="hero-text">
+
+        A curated record of credentials, continuous learning, and professional growth.
+    </p>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <span class="stat-number">
+                07
+            </span>
+
+            <span class="stat-label">
+                CERTIFICATES<br>
+                ON RECORD
+            </span>
+
+        </div>
+
+
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     CERTIFICATES
+========================= -->
+
+<section
+    class="section"
+    id="certificates"
+>
+
+    <div class="section-label">
+        THE RECORD
+    </div>
+
+
+    <h2 class="section-title">
+        Certificates
+    </h2>
+
+
+
+    <!-- CERTIFICATE 1 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                17
+            </span>
+
+            <span class="date-month">
+                AUG
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-1.jpg"
+            alt="Certificate 1"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+
+            </div>
+
+            <h3 class="card-title">
+                Smart Business with Al and Data Analytics
+
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Professional
+                </span>
+
+                <span class="tag">
+                    Certification
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-1.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 2 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                31
+            </span>
+
+            <span class="date-month">
+                AUG
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-2.jpg"
+            alt="Certificate 2"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Cisco Networking Academy program.
+            </div>
+
+            <h3 class="card-title">
+                Ethical Hacker
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Cybersecurity
+                </span>
+
+                <span class="tag">
+                    Skills
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-2.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 3 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                01
+            </span>
+
+            <span class="date-month">
+                SEP
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-3.jpg"
+            alt="Certificate 3"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+            </div>
+
+            <h3 class="card-title">
+                Hands-On Networking Workshop
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Development
+                </span>
+
+                <span class="tag">
+                    Learning
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-3.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 4 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                01
+            </span>
+
+            <span class="date-month">
+                SEP
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-4.jpg"
+            alt="Certificate 4"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+            </div>
+
+            <h3 class="card-title">
+                Hands-On Networking Workshop
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Technology
+                </span>
+
+                <span class="tag">
+                    Professional
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-4.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 5 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                02
+            </span>
+
+            <span class="date-month">
+                SEP
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-5.jpg"
+            alt="Certificate 5"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+            </div>
+
+            <h3 class="card-title">
+                JavaScript and Database Integration Building Dynamic Data Driven Web
+Applications
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Development
+                </span>
+
+                <span class="tag">
+                    Skills
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-5.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 6 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                02
+            </span>
+
+            <span class="date-month">
+                SEP
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-6.jpg"
+            alt="Certificate 6"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+            </div>
+
+            <h3 class="card-title">
+                Soft Skill of the 2lst Century Professional
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+              
+                </span>
+
+                <span class="tag">
+                    Learning
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-6.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+
+    <!-- CERTIFICATE 7 -->
+
+    <div class="card">
+
+        <div class="date">
+
+            <span class="date-number">
+                03
+            </span>
+
+            <span class="date-month">
+                SEP
+            </span>
+
+        </div>
+
+
+                <img
+            src="images/certificate-7.jpg"
+            alt="Certificate 7"
+            class="certificate-image"
+        >
+
+<div>
+
+            <div class="issuer">
+                Ethel Programming Computer Programming Services
+            </div>
+
+            <h3 class="card-title">
+                English Proficiency for IT Professional
+            </h3>
+
+            <p class="description">
+                A professional certification
+                demonstrating knowledge and
+                practical skills.
+            </p>
+
+            <div class="tags">
+
+                <span class="tag">
+                    Professional
+                </span>
+
+                <span class="tag">
+                    Certification
+                </span>
+
+                <span class="tag">
+                    2026
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="certificates/certificate-7.pdf"
+            target="_blank"
+            class="button"
+        >
+            View Certificate ↗
+        </a>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer id="footer">
+
+    © 2026 KIM V. VASQUEZ
+    ·
+    CERTIFICATE LEDGER
+
+</footer>
+
+
+</div>
+
+</body>
+</html>
